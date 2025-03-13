@@ -4,8 +4,8 @@
 #include <iostream>
 
 void Chess::play() {
-    Player whitePlayer = Player(true);
-    Player blackPlayer = Player(false);
+    Player whitePlayer = Player(Color::WHITE);
+    Player blackPlayer = Player(Color::BLACK);
 
     GameState::GameOutcome outcome;
     do{

@@ -83,6 +83,6 @@ struct MovementPattern {
     @param movePattern The movement pattern of the piece
     @return A vector of positions that the piece can move to
 */
-std::vector<Position> getMoveDestinations(Position start, MovementPattern& movePattern);
+std::vector<Position> getMoveDestinations(Position start, MovementPattern movePattern);
 
 #endif

@@ -13,9 +13,9 @@
 */
 class Player {
     private:
-        bool isWhite;
+        Color color;
     public:
-        Player(bool isWhite) : isWhite(isWhite) {};
+        Player(Color color) : color(color) {};
         std::pair<ChessPiece*, Position> queryPlayerMove(Board board);
 };
 

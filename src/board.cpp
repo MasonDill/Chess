@@ -55,3 +55,19 @@ void Board::movePiece(ChessPiece* piece, Position end) {
         delete temp; // cleanup any pieces that were captured
     }
 }
+
+std::vector<ChessPiece*> Board::getPieces(Color color) {
+    std::vector<ChessPiece*> pieces;
+    for (int i = 0; i < ranks; i++) {
+        for (int j = 0; j < files; j++) {
+            if (board[i][j] != nullptr && board[i][j]->getColor() & color > 0) {
+                pieces.push_back(board[i][j]);
+            }
+        }
+    }
+    return pieces;
+}
+
+std::vector<ChessPiece*> Board::getPieces() {
+    return getPieces(Color::GRAY);
+}

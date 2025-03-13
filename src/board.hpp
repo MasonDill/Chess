@@ -16,8 +16,6 @@ class Board {
             @note 2D array of pointers to ChessPiece objects
         */
         ChessPiece*** board;
-
-    public:
         /*
             @brief The number of ranks on the board
         */
@@ -28,9 +26,17 @@ class Board {
         */
         int files;
 
+    public:
+
         Board(int ranks, int files);
         Board(int ranks, int files, std::vector<ChessPiece*> pieces);
         ~Board();
+
+        int getRanks();
+        int getFiles();
+        ChessPiece* getPiece(int rank, int file);
+        std::vector<ChessPiece*> getPieces();
+        std::vector<ChessPiece*> getPieces(Color color);
 
         /*
             @brief Move a piece from a position to another

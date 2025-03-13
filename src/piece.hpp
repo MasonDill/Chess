@@ -12,8 +12,9 @@
     @brief Enum for the color of a piece
 */
 enum Color {
-    WHITE,
-    BLACK
+    WHITE = 0b01,
+    BLACK = 0b10,
+    GRAY = 0b11 // (WHITE | BLACK) -> (WHITE & GRAY) == 1, (BLACK & GRAY) == 2
 };
 
 /*
@@ -73,6 +74,12 @@ class ChessPiece {
 
         /* @brief Returns the type of the piece */
         PieceType getType() const { return type; }
+
+        /* @brief Returns the movement pattern of the piece */
+        MovementPattern getMovePattern() const { return movePattern; }
+
+        /* @brief Returns the attack pattern of the piece */
+        MovementPattern getAttackPattern() const { return attackPattern; }
 };
 
 /*
