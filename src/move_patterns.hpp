@@ -67,5 +67,6 @@ const static MovementPattern KING_MOVE_PATTERN = {
         MoveSequence{{ {SOUTH_WEST, 1, SLIDE} }}
     }
 };
+const static MovementPattern KING_ATTACK_PATTERN = KING_MOVE_PATTERN;
 
 #endif  

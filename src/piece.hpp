@@ -72,4 +72,65 @@ class Rook : public ChessPiece {
 
         ~Rook() override = default;
 };
+
+class Knight : public ChessPiece {
+    public:
+        Knight(Color color, Position position) : ChessPiece(color,
+                                            position,
+                                            KNIGHT,
+                                            KNIGHT_MOVE_PATTERN,
+                                            KNIGHT_ATTACK_PATTERN) {}
+
+        virtual std::string toString() const override {
+            return "N";
+        }
+
+        ~Knight() override = default;
+};
+
+class Bishop : public ChessPiece {
+    public:
+        Bishop(Color color, Position position) : ChessPiece(color,
+                                            position,
+                                            BISHOP,
+                                            BISHOP_MOVE_PATTERN,
+                                            BISHOP_ATTACK_PATTERN) {}
+
+        virtual std::string toString() const override {
+            return "B";
+        }
+
+        ~Bishop() override = default;
+};
+
+class Queen : public ChessPiece {
+    public:
+        Queen(Color color, Position position) : ChessPiece(color,
+                                            position,
+                                            QUEEN,
+                                            QUEEN_MOVE_PATTERN,
+                                            QUEEN_ATTACK_PATTERN) {}
+
+        virtual std::string toString() const override {
+            return "Q";
+        }
+
+        ~Queen() override = default;
+};
+
+class King : public ChessPiece {
+    public:
+        King(Color color, Position position) : ChessPiece(color,
+                                            position,
+                                            KING,
+                                            KING_MOVE_PATTERN,
+                                            KING_ATTACK_PATTERN) {}
+
+        virtual std::string toString() const override {
+            return "K";
+        }
+
+        ~King() override = default;
+};
+
 #endif
