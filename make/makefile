@@ -18,7 +18,7 @@ all: $(BUILD_DIR) $(TARGET)
 
 # Create build directory
 $(BUILD_DIR):
-	mkdir -p $(BUILD_DIR)
+	mkdir $(BUILD_DIR)
 
 # Link the target executable
 $(TARGET): $(OBJS)
@@ -30,6 +30,6 @@ $(BUILD_DIR)/%.o: $(SRC_DIR)/%.cpp
 
 # Clean build files
 clean:
-	rm -rf $(BUILD_DIR) $(TARGET)
+	del $(BUILD_DIR) $(TARGET).exe
 
 .PHONY: all clean
