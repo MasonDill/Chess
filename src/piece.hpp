@@ -7,11 +7,19 @@
 #include "move.hpp"
 #include "move_patterns.hpp"
 
+/*
+    @enum Color
+    @brief Enum for the color of a piece
+*/
 enum Color {
     WHITE,
     BLACK
 };
 
+/*
+    @enum PieceType
+    @brief Enum for the type of a piece
+*/
 enum PieceType {
     PAWN,
     KNIGHT,
@@ -21,27 +29,59 @@ enum PieceType {
     KING
 };
 
-// Abstract base class for all chess pieces
+/*
+    @class ChessPiece
+    @brief Abstract base class for all chess pieces
+*/
 class ChessPiece {
     private:
+        /* @brief The color of the piece */
         Color color;
-        Position position;
-        PieceType type;
-        MovementPattern movePattern;
-        MovementPattern attackPattern;
-    public:
-        ChessPiece(Color color, Position position, PieceType type, MovementPattern movePattern, MovementPattern attackPattern) : color(color), position(position), type(type), movePattern(movePattern), attackPattern(attackPattern) {}
-        virtual ~ChessPiece() = default;
         
+        /* @brief The type of the piece */
+        PieceType type;
+
+        /* @brief The movement pattern of the piece */
+        MovementPattern movePattern;
+
+        /* @brief The attack pattern of the piece */
+        MovementPattern attackPattern;
+
+    public:
+        /* @brief The position of the piece */
+        Position position;
+
+        /*
+            @brief Constructor for the ChessPiece class
+            @param color The color of the piece
+            @param position The position of the piece
+            @param type The type of the piece
+            @param movePattern The movement pattern of the piece
+            @param attackPattern The attack pattern of the piece
+
+        */
+        ChessPiece(Color color, Position position, PieceType type, MovementPattern movePattern, MovementPattern attackPattern) : color(color), position(position), type(type), movePattern(movePattern), attackPattern(attackPattern) {}
+
+        /* @brief Destructor for the ChessPiece class */
+        virtual ~ChessPiece() = default;
+
+        /* @brief Returns a string representation of the piece */
         virtual std::string toString() const = 0;
         
+        /* @brief Returns the color of the piece */
         Color getColor() const { return color; }
-        Position getPosition() const { return position; }
+
+        /* @brief Returns the type of the piece */
         PieceType getType() const { return type; }
 };
 
+/*
+    @class Pawn
+    @brief A class for the pawn piece
+*/
 class Pawn : public ChessPiece {
     private:
+        /* @brief Whether the pawn has made its first move */
         bool isFirstMove;
     public:
         Pawn(Color color, Position position) : ChessPiece(color,
@@ -51,7 +91,7 @@ class Pawn : public ChessPiece {
                                             PAWN_ATTACK_PATTERN),
                                             isFirstMove(true) {}
 
-        virtual std::string toString() const override {
+        std::string toString() const override {
             return "P";
         }
 
@@ -66,13 +106,17 @@ class Rook : public ChessPiece {
                                             ROOK_MOVE_PATTERN,
                                             ROOK_ATTACK_PATTERN) {}
 
-        virtual std::string toString() const override {
+        std::string toString() const override {
             return "R";
         }
 
         ~Rook() override = default;
 };
 
+/*
+    @class Knight
+    @brief A class for the knight piece
+*/
 class Knight : public ChessPiece {
     public:
         Knight(Color color, Position position) : ChessPiece(color,
@@ -81,13 +125,17 @@ class Knight : public ChessPiece {
                                             KNIGHT_MOVE_PATTERN,
                                             KNIGHT_ATTACK_PATTERN) {}
 
-        virtual std::string toString() const override {
+        std::string toString() const override {
             return "N";
         }
 
         ~Knight() override = default;
 };
 
+/*
+    @class Bishop
+    @brief A class for the bishop piece
+*/
 class Bishop : public ChessPiece {
     public:
         Bishop(Color color, Position position) : ChessPiece(color,
@@ -96,13 +144,17 @@ class Bishop : public ChessPiece {
                                             BISHOP_MOVE_PATTERN,
                                             BISHOP_ATTACK_PATTERN) {}
 
-        virtual std::string toString() const override {
+        std::string toString() const override {
             return "B";
         }
 
         ~Bishop() override = default;
 };
 
+/*
+    @class Queen
+    @brief A class for the queen piece
+*/
 class Queen : public ChessPiece {
     public:
         Queen(Color color, Position position) : ChessPiece(color,
@@ -111,13 +163,17 @@ class Queen : public ChessPiece {
                                             QUEEN_MOVE_PATTERN,
                                             QUEEN_ATTACK_PATTERN) {}
 
-        virtual std::string toString() const override {
+        std::string toString() const override {
             return "Q";
         }
 
         ~Queen() override = default;
 };
 
+/*
+    @class King
+    @brief A class for the king piece
+*/
 class King : public ChessPiece {
     public:
         King(Color color, Position position) : ChessPiece(color,
@@ -126,7 +182,7 @@ class King : public ChessPiece {
                                             KING_MOVE_PATTERN,
                                             KING_ATTACK_PATTERN) {}
 
-        virtual std::string toString() const override {
+        std::string toString() const override {
             return "K";
         }
 
