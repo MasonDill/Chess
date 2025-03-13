@@ -6,10 +6,10 @@
 
 const static MovementPattern PAWN_MOVE_PATTERN = {
     std::vector<MoveSequence> {
-        MoveSequence{{ {NORTH, 1, SLIDE} }}
+        MoveSequence{{ {NORTH, 1, SLIDE} }},
+        MoveSequence{{ {NORTH, 2, SLIDE} }}
     }
 };
-
 const static MovementPattern PAWN_ATTACK_PATTERN = {
     std::vector<MoveSequence> {
         MoveSequence{{ {NORTH_EAST, 1, SLIDE}}},
@@ -17,4 +17,55 @@ const static MovementPattern PAWN_ATTACK_PATTERN = {
     }
 };
 
-#endif
+const static MovementPattern ROOK_MOVE_PATTERN = {
+    std::vector<MoveSequence> {
+        MoveSequence{{ {NORTH, Move::MAX_DISTANCE, SLIDE} }},
+        MoveSequence{{ {EAST, Move::MAX_DISTANCE, SLIDE} }},
+        MoveSequence{{ {SOUTH, Move::MAX_DISTANCE, SLIDE} }},
+        MoveSequence{{ {WEST, Move::MAX_DISTANCE, SLIDE} }},
+    }
+};
+const static MovementPattern ROOK_ATTACK_PATTERN = ROOK_MOVE_PATTERN;
+
+const static MovementPattern KNIGHT_MOVE_PATTERN = {
+    std::vector<MoveSequence> {
+        MoveSequence{{ {Y_AXIS, 2, JUMP}, {X_AXIS, 1, JUMP} }},
+        MoveSequence{{ {X_AXIS, 2, JUMP}, {Y_AXIS, 1, JUMP} }},
+    }
+};
+const static MovementPattern KNIGHT_ATTACK_PATTERN = KNIGHT_MOVE_PATTERN;
+
+const static MovementPattern BISHOP_MOVE_PATTERN = {
+    std::vector<MoveSequence> {
+        MoveSequence{{ {DIAGONAL_NESW, Move::MAX_DISTANCE, SLIDE} }},
+        MoveSequence{{ {DIAGONAL_NWSE, Move::MAX_DISTANCE, SLIDE} }}
+    }
+};
+const static MovementPattern BISHOP_ATTACK_PATTERN = BISHOP_MOVE_PATTERN;
+
+const static MovementPattern QUEEN_MOVE_PATTERN = {
+    std::vector<MoveSequence> {
+        MoveSequence{{ {NORTH, Move::MAX_DISTANCE, SLIDE} }},
+        MoveSequence{{ {EAST, Move::MAX_DISTANCE, SLIDE} }},
+        MoveSequence{{ {SOUTH, Move::MAX_DISTANCE, SLIDE} }},
+        MoveSequence{{ {WEST, Move::MAX_DISTANCE, SLIDE} }},
+        MoveSequence{{ {DIAGONAL_NESW, Move::MAX_DISTANCE, SLIDE} }},
+        MoveSequence{{ {DIAGONAL_NWSE, Move::MAX_DISTANCE, SLIDE} }}
+    }
+};
+const static MovementPattern QUEEN_ATTACK_PATTERN = QUEEN_MOVE_PATTERN;
+
+const static MovementPattern KING_MOVE_PATTERN = {
+    std::vector<MoveSequence> {
+        MoveSequence{{ {NORTH, 1, SLIDE} }},
+        MoveSequence{{ {EAST, 1, SLIDE} }},
+        MoveSequence{{ {SOUTH, 1, SLIDE} }},
+        MoveSequence{{ {WEST, 1, SLIDE} }},
+        MoveSequence{{ {NORTH_EAST, 1, SLIDE} }},
+        MoveSequence{{ {NORTH_WEST, 1, SLIDE} }},
+        MoveSequence{{ {SOUTH_EAST, 1, SLIDE} }},
+        MoveSequence{{ {SOUTH_WEST, 1, SLIDE} }}
+    }
+};
+
+#endif  
