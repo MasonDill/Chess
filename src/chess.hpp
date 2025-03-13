@@ -3,6 +3,10 @@
 
 #include "gamestate.hpp"
 
+/*
+    @class Chess
+    @brief A class for the chess game
+*/
 class Chess {
     private:
         GameState gameState;

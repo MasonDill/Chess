@@ -4,6 +4,10 @@
 #include <utility>
 #include "gamestate.hpp"
 
+/*
+    @class GameTemplate
+    @brief A class to define preset game setups
+*/
 class GameTemplate {
     public:
         virtual std::vector<ChessPiece*> getInitialPieces() = 0;
@@ -15,6 +19,10 @@ class GameTemplate {
         }
 };
 
+/*
+    @class ClassicChess
+    @brief A template for the classic chess setup
+*/
 class ClassicChess : public GameTemplate {
     public:
         std::vector<ChessPiece*> getInitialPieces() override;

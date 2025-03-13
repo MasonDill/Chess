@@ -4,6 +4,10 @@
 #include "board.hpp"
 #include "gametemplate.hpp"
 
+/*
+    @class GameState
+    @brief A class for the game state of a chess game
+*/
 class GameState {
     private:
         Board board;

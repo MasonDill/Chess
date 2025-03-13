@@ -4,6 +4,11 @@
 #include "move.hpp"
 #include <vector>
 
+/*
+    @file move_patterns.hpp
+    @brief A file for the move patterns of the pieces
+*/
+
 const static MovementPattern PAWN_MOVE_PATTERN = {
     std::vector<MoveSequence> {
         MoveSequence{{ {NORTH, 1, SLIDE} }},
@@ -19,10 +24,10 @@ const static MovementPattern PAWN_ATTACK_PATTERN = {
 
 const static MovementPattern ROOK_MOVE_PATTERN = {
     std::vector<MoveSequence> {
-        MoveSequence{{ {NORTH, Move::MAX_DISTANCE, SLIDE} }},
-        MoveSequence{{ {EAST, Move::MAX_DISTANCE, SLIDE} }},
-        MoveSequence{{ {SOUTH, Move::MAX_DISTANCE, SLIDE} }},
-        MoveSequence{{ {WEST, Move::MAX_DISTANCE, SLIDE} }},
+        MoveSequence{{ {NORTH, Move::UNBOUNDED_DISTANCE, SLIDE} }},
+        MoveSequence{{ {EAST, Move::UNBOUNDED_DISTANCE, SLIDE} }},
+        MoveSequence{{ {SOUTH, Move::UNBOUNDED_DISTANCE, SLIDE} }},
+        MoveSequence{{ {WEST, Move::UNBOUNDED_DISTANCE, SLIDE} }},
     }
 };
 const static MovementPattern ROOK_ATTACK_PATTERN = ROOK_MOVE_PATTERN;
@@ -37,20 +42,20 @@ const static MovementPattern KNIGHT_ATTACK_PATTERN = KNIGHT_MOVE_PATTERN;
 
 const static MovementPattern BISHOP_MOVE_PATTERN = {
     std::vector<MoveSequence> {
-        MoveSequence{{ {DIAGONAL_NESW, Move::MAX_DISTANCE, SLIDE} }},
-        MoveSequence{{ {DIAGONAL_NWSE, Move::MAX_DISTANCE, SLIDE} }}
+        MoveSequence{{ {DIAGONAL_NESW, Move::UNBOUNDED_DISTANCE, SLIDE} }},
+        MoveSequence{{ {DIAGONAL_NWSE, Move::UNBOUNDED_DISTANCE, SLIDE} }}
     }
 };
 const static MovementPattern BISHOP_ATTACK_PATTERN = BISHOP_MOVE_PATTERN;
 
 const static MovementPattern QUEEN_MOVE_PATTERN = {
     std::vector<MoveSequence> {
-        MoveSequence{{ {NORTH, Move::MAX_DISTANCE, SLIDE} }},
-        MoveSequence{{ {EAST, Move::MAX_DISTANCE, SLIDE} }},
-        MoveSequence{{ {SOUTH, Move::MAX_DISTANCE, SLIDE} }},
-        MoveSequence{{ {WEST, Move::MAX_DISTANCE, SLIDE} }},
-        MoveSequence{{ {DIAGONAL_NESW, Move::MAX_DISTANCE, SLIDE} }},
-        MoveSequence{{ {DIAGONAL_NWSE, Move::MAX_DISTANCE, SLIDE} }}
+        MoveSequence{{ {NORTH, Move::UNBOUNDED_DISTANCE, SLIDE} }},
+        MoveSequence{{ {EAST, Move::UNBOUNDED_DISTANCE, SLIDE} }},
+        MoveSequence{{ {SOUTH, Move::UNBOUNDED_DISTANCE, SLIDE} }},
+        MoveSequence{{ {WEST, Move::UNBOUNDED_DISTANCE, SLIDE} }},
+        MoveSequence{{ {DIAGONAL_NESW, Move::UNBOUNDED_DISTANCE, SLIDE} }},
+        MoveSequence{{ {DIAGONAL_NWSE, Move::UNBOUNDED_DISTANCE, SLIDE} }}
     }
 };
 const static MovementPattern QUEEN_ATTACK_PATTERN = QUEEN_MOVE_PATTERN;
