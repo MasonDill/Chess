@@ -47,6 +47,12 @@ void Board::movePiece(ChessPiece* piece, Position end) {
         }
     }
 
+    ChessPiece* temp = target;
+
     target = piece;
-    piece = nullptr; // assign to nullptr, do not delete/free
+    piece = nullptr;
+
+    if (temp != nullptr) {
+        delete temp; // cleanup any pieces that were captured
+    }
 }

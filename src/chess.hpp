@@ -2,6 +2,8 @@
 #define CHESS_HPP
 
 #include "gamestate.hpp"
+#include "player.hpp"
+#include "piece.hpp"
 
 /*
     @class Chess
@@ -9,11 +11,12 @@
 */
 class Chess {
     private:
-        GameState gameState;
+        GameState* gameState;
     public:
-        Chess() : gameState(new ClassicChess()) {};
-        Chess(GameTemplate* gameTemplate) : gameState(gameTemplate) {};
+        Chess(GameTemplate* gameTemplate) : gameState(new GameState(gameTemplate)) {};
+        Chess() : Chess(new ClassicChess()) {};
         void run();
 };
+
 
 #endif

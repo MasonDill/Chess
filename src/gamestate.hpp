@@ -15,7 +15,27 @@ class GameState {
         bool whiteTurn;
     public:
         GameState(int ranks, int files, std::vector<ChessPiece*> pieces);
-        GameState::GameState(GameTemplate* gameTemplate) : GameState(gameTemplate->ranks(), gameTemplate->files(), gameTemplate->getInitialPieces()) {};
+        GameState(GameTemplate* gameTemplate);
+
+        /*
+            @enum GameOutcome
+            @brief An enum for the outcome of a game
+        */
+        enum GameOutcome {
+            IN_PROGRESS,
+            WHITE_WINS,
+            BLACK_WINS,
+            DRAW
+        };
+
+        Color getTurn();
+
+        /*
+            @brief A function to play a turn
+            @param moveSequence The move sequence to play
+            @return The outcome of the game
+        */
+        GameOutcome playTurn(ChessPiece* piece, MoveSequence moveSequence);
 };
 
 

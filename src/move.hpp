@@ -66,7 +66,7 @@ struct Move {
     @brief A struct for a sequence of moves. Represents the movement a piece can make in a single turn.
 */
 struct MoveSequence {
-    std::vector<Move> adjustments;
+    std::vector<Move> moves;
 };
 
 /*
@@ -74,7 +74,7 @@ struct MoveSequence {
     @brief A struct for the movement pattern of a piece. Represents all the possible moves a piece can make in a single turn.
 */
 struct MovementPattern {
-    std::vector<MoveSequence> moves;
+    std::vector<MoveSequence> moveSequences;
 };
 
 /*

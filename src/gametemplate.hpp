@@ -2,7 +2,7 @@
 #define GAMETEMPLATE_HPP
 
 #include <utility>
-#include "gamestate.hpp"
+#include "piece.hpp"
 
 /*
     @class GameTemplate
