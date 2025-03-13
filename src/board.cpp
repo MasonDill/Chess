@@ -26,8 +26,7 @@ Board::Board(int ranks, int files) : ranks(ranks), files(files) {
     }
 }
 
-Board::Board(int ranks, int files, std::vector<ChessPiece*> pieces) : ranks(ranks), files(files) {
-    Board(ranks, files);
+Board::Board(int ranks, int files, std::vector<ChessPiece*> pieces) : Board(ranks, files) {
     populateBoard(this->board, pieces);
 }
 
