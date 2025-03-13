@@ -29,13 +29,14 @@ class GameState {
         };
 
         Color getTurn();
-
+        Board getBoard();
+        
         /*
             @brief A function to play a turn
-            @param moveSequence The move sequence to play
+            @param end The end position of the piece
             @return The outcome of the game
         */
-        GameOutcome playTurn(ChessPiece* piece, MoveSequence moveSequence);
+        GameOutcome playTurn(ChessPiece* piece, Position end);
 };
 
 

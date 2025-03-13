@@ -16,7 +16,7 @@ class Player {
         bool isWhite;
     public:
         Player(bool isWhite) : isWhite(isWhite) {};
-        std::pair<ChessPiece*, MoveSequence> queryPlayerMove(GameState& gameState);
+        std::pair<ChessPiece*, Position> queryPlayerMove(Board board);
 };
 
 #endif

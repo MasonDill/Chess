@@ -7,28 +7,19 @@ Color GameState::getTurn() {
     return whiteTurn ? Color::WHITE : Color::BLACK;
 }
 
-GameState::GameOutcome GameState::playTurn(ChessPiece* piece, MoveSequence moveSequence) {
-    Position end = piece->position;
-    // TODO: implement this
-    // for (Move move : moveSequence.moves) {
-    //     switch(move.direction) {
-    //         case Direction::NORTH:
-    //             end.rank += move.distance;
-    //             break;
-    //         case Direction::SOUTH:
-    //             end.rank -= move.distance;
-    //             break;
-    //         case Direction::EAST:
-    //             end.file += move.distance;
-    //             break;
-    //         case Direction::WEST:
-    //             end.file -= move.distance;
-    //             break;
-    // }
+Board GameState::getBoard() {
+    return board;
+}
 
+GameState::GameOutcome GameState::playTurn(ChessPiece* piece, Position end) {
     board.movePiece(piece, end);
 
     // TODO: check for checkmate/draw
+
+
+    // Update 
+    turn++;
+    whiteTurn = !whiteTurn;
 
     return GameState::GameOutcome::IN_PROGRESS;
 }

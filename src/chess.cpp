@@ -3,26 +3,26 @@
 
 #include <iostream>
 
-void Chess::run() {
+void Chess::play() {
     Player whitePlayer = Player(true);
     Player blackPlayer = Player(false);
 
     GameState::GameOutcome outcome;
     do{
         ChessPiece* piece;
-        MoveSequence moveSequence;
+        Position end;
         switch(gameState->getTurn()) {
             case Color::WHITE:
-                std::tie(piece, moveSequence) = whitePlayer.queryPlayerMove(*gameState);
+                std::tie(piece, end) = whitePlayer.queryPlayerMove(gameState->getBoard());
                 break;
             case Color::BLACK:
-                std::tie(piece, moveSequence) = blackPlayer.queryPlayerMove(*gameState);
+                std::tie(piece, end) = blackPlayer.queryPlayerMove(gameState->getBoard());
                 break;
             default:
                 throw std::invalid_argument("Invalid turn");
         }
 
-        outcome = gameState->playTurn(piece, moveSequence);
+        outcome = gameState->playTurn(piece, end);
     } while (outcome == GameState::GameOutcome::IN_PROGRESS);
 
     // switch(outcome) {

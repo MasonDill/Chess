@@ -2,6 +2,6 @@
 
 int main() {
     Chess chess;
-    chess.run();
+    chess.play();
     return 0;
 }

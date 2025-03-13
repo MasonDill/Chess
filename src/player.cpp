@@ -1,6 +1,6 @@
 #include "player.hpp"
 
-std::pair<ChessPiece*, MoveSequence> Player::queryPlayerMove(GameState& gameState){
+std::pair<ChessPiece*, Position> Player::queryPlayerMove(Board board){
     // TODO: Implement this
-    return std::make_pair(nullptr, MoveSequence());
+    return std::make_pair(nullptr, Position());
 }
