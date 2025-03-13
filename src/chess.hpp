@@ -1,13 +1,14 @@
 #ifndef CHESS_HPP
 #define CHESS_HPP
 
-#include "board.hpp"
+#include "gamestate.hpp"
 
 class Chess {
     private:
-        Board board;
+        GameState gameState;
     public:
-        Chess();
+        Chess() : gameState(new ClassicChess()) {};
+        Chess(GameTemplate* gameTemplate) : gameState(gameTemplate) {};
         void run();
 };
 

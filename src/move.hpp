@@ -35,10 +35,14 @@ struct Move {
     MoveType moveType;
 };
 
-struct MovePattern {
-    std::vector<Move> moves;
+struct MoveSequence {
+    std::vector<Move> adjustments;
 };
 
-std::vector<Position> getMoveDestinations(Position start, MovePattern& movePattern);
+struct MovementPattern {
+    std::vector<MoveSequence> moves;
+};
+
+std::vector<Position> getMoveDestinations(Position start, MovementPattern& movePattern);
 
 #endif

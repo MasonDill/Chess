@@ -27,10 +27,10 @@ class ChessPiece {
         Color color;
         Position position;
         PieceType type;
-        MovePattern movePattern;
-        MovePattern attackPattern;
+        MovementPattern movePattern;
+        MovementPattern attackPattern;
     public:
-        ChessPiece(Color color, Position position, PieceType type, MovePattern movePattern, MovePattern attackPattern) : color(color), position(position), type(type), movePattern(movePattern), attackPattern(attackPattern) {}
+        ChessPiece(Color color, Position position, PieceType type, MovementPattern movePattern, MovementPattern attackPattern) : color(color), position(position), type(type), movePattern(movePattern), attackPattern(attackPattern) {}
         virtual ~ChessPiece() = default;
         
         virtual std::string toString() const = 0;
@@ -58,4 +58,18 @@ class Pawn : public ChessPiece {
         ~Pawn() override = default;
 };
 
+class Rook : public ChessPiece {
+    public:
+        Rook(Color color, Position position) : ChessPiece(color,
+                                            position,
+                                            ROOK,
+                                            ROOK_MOVE_PATTERN,
+                                            ROOK_ATTACK_PATTERN) {}
+
+        virtual std::string toString() const override {
+            return "R";
+        }
+
+        ~Rook() override = default;
+};
 #endif

@@ -4,17 +4,16 @@
 #include "move.hpp"
 #include <vector>
 
-const static MovePattern PAWN_MOVE_PATTERN = {
-    std::vector<Move> {
-        {NORTH, 1, SLIDE},
-        {NORTH, 2, SLIDE},
+const static MovementPattern PAWN_MOVE_PATTERN = {
+    std::vector<MoveSequence> {
+        MoveSequence{{ {NORTH, 1, SLIDE} }}
     }
 };
 
-const static MovePattern PAWN_ATTACK_PATTERN = {
-    std::vector<Move> {
-        {NORTH_EAST, 1, SLIDE},
-        {NORTH_WEST, 1, SLIDE},
+const static MovementPattern PAWN_ATTACK_PATTERN = {
+    std::vector<MoveSequence> {
+        MoveSequence{{ {NORTH_EAST, 1, SLIDE}}},
+        MoveSequence{{ {NORTH_WEST, 1, SLIDE}}}
     }
 };
 
