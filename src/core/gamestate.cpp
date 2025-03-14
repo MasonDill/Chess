@@ -14,7 +14,7 @@ Board GameState::getBoard() {
 GameState::GameOutcome GameState::playTurn(ChessPiece* piece, Position end) {
     board.movePiece(piece, end);
 
-    // TODO: check for checkmate/draw
+    // TODO: check for checkmate/stalemate
 
 
     // Update 

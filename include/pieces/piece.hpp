@@ -24,12 +24,13 @@ enum Color {
     @brief Enum for the type of a piece
 */
 enum PieceType {
-    PAWN,
-    KNIGHT,
-    BISHOP,
-    ROOK,
-    QUEEN,
-    KING
+    PAWN =      0b000001,
+    KNIGHT =    0b000010,
+    BISHOP =    0b000100,
+    ROOK =      0b001000,
+    QUEEN =     0b010000,
+    KING =      0b100000,
+    ANY =       0b111111 // (ANY & PieceType) == PieceType
 };
 
 /*

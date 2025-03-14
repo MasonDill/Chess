@@ -39,6 +39,8 @@ class Board {
         ChessPiece* getPiece(Position pos);
         std::vector<ChessPiece*> getPieces();
         std::vector<ChessPiece*> getPieces(Color color);
+        std::vector<ChessPiece*> getPieces(PieceType type);
+        std::vector<ChessPiece*> getPieces(Color color, PieceType type);
 
         /*
             @brief Move a piece from a position to another

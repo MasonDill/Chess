@@ -64,11 +64,15 @@ void Board::movePiece(ChessPiece* piece, Position end) {
     }
 }
 
-std::vector<ChessPiece*> Board::getPieces(Color color) {
+std::vector<ChessPiece*> Board::getPieces(Color color, PieceType type) {
     std::vector<ChessPiece*> pieces;
     for (int i = 0; i < ranks; i++) {
         for (int j = 0; j < files; j++) {
-            if (board[i][j] != nullptr && board[i][j]->getColor() & color > 0) {
+            if (board[i][j] == nullptr) {
+                continue;
+            }
+            
+            if (board[i][j]->getColor() == color & board[i][j]->getType() == type) {
                 pieces.push_back(board[i][j]);
             }
         }
@@ -76,8 +80,16 @@ std::vector<ChessPiece*> Board::getPieces(Color color) {
     return pieces;
 }
 
+std::vector<ChessPiece*> Board::getPieces(Color color) {
+    return getPieces(color, PieceType::ANY);
+}
+
+std::vector<ChessPiece*> Board::getPieces(PieceType type) {
+    return getPieces(Color::GRAY, type);
+}
+
 std::vector<ChessPiece*> Board::getPieces() {
-    return getPieces(Color::GRAY);
+    return getPieces(Color::GRAY, PieceType::ANY);
 }
 
 void Board::printBoard() {

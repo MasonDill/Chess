@@ -29,17 +29,17 @@ void Chess::play() {
         outcome = gameState->playTurn(piece, end);
     } while (outcome == GameState::GameOutcome::IN_PROGRESS);
 
-    // switch(outcome) {
-    //     case GameState::GameOutcome::WHITE_WINS:
-    //         std::cout << "White wins!" << std::endl;
-    //         break;
-    //     case GameState::GameOutcome::BLACK_WINS:
-    //         std::cout << "Black wins!" << std::endl;
-    //         break;
-    //     case GameState::GameOutcome::DRAW:
-    //         std::cout << "Draw!" << std::endl;
-    //         break;
-    //     default:
-    //         throw std::invalid_argument("Invalid outcome");
-    // }
+    switch(outcome) {
+        case GameState::GameOutcome::WHITE_WINS:
+            std::cout << "White wins!" << std::endl;
+            break;
+        case GameState::GameOutcome::BLACK_WINS:
+            std::cout << "Black wins!" << std::endl;
+            break;
+        case GameState::GameOutcome::DRAW:
+            std::cout << "Draw!" << std::endl;
+            break;
+        default:
+            throw std::invalid_argument("Invalid outcome");
+    }
 }
