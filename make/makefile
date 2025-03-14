@@ -30,6 +30,6 @@ $(BUILD_DIR)/%.o: $(SRC_DIR)/%.cpp
 
 # Clean build files
 clean:
-	del $(BUILD_DIR) $(TARGET).exe
+	$(RM) -r $(BUILD_DIR) $(TARGET)
 
 .PHONY: all clean
