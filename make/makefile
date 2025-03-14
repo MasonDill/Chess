@@ -1,4 +1,4 @@
-PROJECT_DIR = ../
+PROJECT_DIR = ..
 
 # Include header files
 INCLUDE_DIR := $(PROJECT_DIR)/include
@@ -18,8 +18,8 @@ CXXFLAGS = -Wall -Wextra -std=c++17 $(CXXFLAGS_DEBUG) $(INCLUDE_FLAGS)
 
 # Directories
 SRC_DIRS = $(PROJECT_DIR)/src/game $(PROJECT_DIR)/src/core $(PROJECT_DIR)/src/pieces
-BUILD_DIR = $(PROJECT_DIR)/build/
-BIN_DIR = $(PROJECT_DIR)/bin/
+BUILD_DIR = $(PROJECT_DIR)/build
+BIN_DIR = $(PROJECT_DIR)/bin
 
 # Source files and object files
 SRCS = $(wildcard $(addsuffix /*.cpp,$(SRC_DIRS)))
@@ -32,11 +32,11 @@ TARGET = $(BIN_DIR)/chess
 all: $(BUILD_DIR) create_obj_dirs $(TARGET)
 
 # Create build directory and subdirectories
-$(BUILD_DIR):
-	mkdir $(BUILD_DIR)
-
 create_obj_dirs:
-	mkdir $(BUILD_DIR)/game $(BUILD_DIR)/core $(BUILD_DIR)/pieces
+	@if not exist "$(BUILD_DIR)\game" mkdir "$(BUILD_DIR)\game"
+	@if not exist "$(BUILD_DIR)\core" mkdir "$(BUILD_DIR)\core"
+	@if not exist "$(BUILD_DIR)\pieces" mkdir "$(BUILD_DIR)\pieces"
+	@if not exist "$(BIN_DIR)" mkdir "$(BIN_DIR)"
 
 # Link the target executable
 $(TARGET): $(OBJS)
