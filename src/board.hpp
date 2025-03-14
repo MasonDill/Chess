@@ -34,7 +34,9 @@ class Board {
 
         int getRanks();
         int getFiles();
+        
         ChessPiece* getPiece(int rank, int file);
+        ChessPiece* getPiece(Position pos);
         std::vector<ChessPiece*> getPieces();
         std::vector<ChessPiece*> getPieces(Color color);
 
@@ -44,6 +46,14 @@ class Board {
             @param end The position to move the piece to
         */
         void movePiece(ChessPiece* piece, Position end);
+
+        /*
+            @brief Print the board with ASCII characters to the console
+        */
+        void printBoard();
+
+        bool isInBounds(int rank, int file);
+        bool isInBounds(Position pos);
 };
 
 #endif

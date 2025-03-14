@@ -11,6 +11,8 @@ void Chess::play() {
     do{
         ChessPiece* piece;
         Position end;
+
+        gameState->getBoard().printBoard();
         switch(gameState->getTurn()) {
             case Color::WHITE:
                 std::tie(piece, end) = whitePlayer.queryPlayerMove(gameState->getBoard());
@@ -21,6 +23,8 @@ void Chess::play() {
             default:
                 throw std::invalid_argument("Invalid turn");
         }
+        // clear the console
+        system("cls");
 
         outcome = gameState->playTurn(piece, end);
     } while (outcome == GameState::GameOutcome::IN_PROGRESS);

@@ -9,6 +9,10 @@
 struct Position {
     int rank;
     int file;
+
+    bool operator==(const Position& other) const {
+        return rank == other.rank && file == other.file;
+    }
 };
 
 /*
@@ -84,5 +88,14 @@ struct MovementPattern {
     @return A vector of positions that the piece can move to
 */
 std::vector<Position> getMoveDestinations(Position start, MovementPattern movePattern);
+
+/*
+    @brief A function to check if a move is legal
+    @param start The starting position of the piece
+    @param end The ending position of the piece
+    @param movePattern The movement pattern of the piece
+    @return True if the move is legal, false otherwise
+*/
+bool canReachDestination(Position start, Position end, MovementPattern movePattern);
 
 #endif

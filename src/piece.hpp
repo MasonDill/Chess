@@ -3,7 +3,9 @@
 
 #include <string>
 #include <vector>
+#include <stdexcept>
 
+#include <unordered_map>
 #include "move.hpp"
 #include "move_patterns.hpp"
 
@@ -14,7 +16,7 @@
 enum Color {
     WHITE = 0b01,
     BLACK = 0b10,
-    GRAY = 0b11 // (WHITE | BLACK) -> (WHITE & GRAY) == 1, (BLACK & GRAY) == 2
+    GRAY = 0b11 // GRAY == (WHITE | BLACK) -> (WHITE & GRAY) == WHITE, (BLACK & GRAY) == BLACK
 };
 
 /*
@@ -52,6 +54,31 @@ class ChessPiece {
         /* @brief The position of the piece */
         Position position;
 
+        /* @brief Returns the piece type from a character
+           @param piece The character to get the piece type from
+           @return The piece type
+           @note This function is static because it is not part of the ChessPiece class, just functionality tied to it
+           @todo move to a dynamic type matching system (mapping char to PieceType or replace PieceType with string everywhere)
+        */
+        static PieceType getPieceType(char piece) {
+            switch (tolower(piece)) {
+                case 'p':
+                    return PAWN;
+                case 'n':
+                    return KNIGHT;
+                case 'b':
+                    return BISHOP;
+                case 'r':
+                    return ROOK;
+                case 'q':
+                    return QUEEN;
+                case 'k':
+                    return KING;
+                default:
+                    throw std::invalid_argument("Invalid piece type");
+            }
+        }
+
         /*
             @brief Constructor for the ChessPiece class
             @param color The color of the piece
@@ -80,6 +107,12 @@ class ChessPiece {
 
         /* @brief Returns the attack pattern of the piece */
         MovementPattern getAttackPattern() const { return attackPattern; }
+
+        /* @brief Returns whether the move is legal
+           @note This function is virtual (not pure virtual) for special moves like castling, en passant, and promotion
+           Basic movement is processed in move.cpp for all pieces
+         */
+        virtual bool isLegalMove(Position endPos);
 };
 
 /*

@@ -1,3 +1,4 @@
+#include <iostream>
 #include "board.hpp"
 
 /*** Helper functions ***/
@@ -37,6 +38,13 @@ Board::~Board() {
     delete[] board;
 }
 
+ChessPiece* Board::getPiece(Position pos) {
+    if (!isInBounds(pos)) {
+        throw std::invalid_argument("Position out of bounds");
+    }
+    return board[pos.rank][pos.file];
+}
+
 void Board::movePiece(ChessPiece* piece, Position end) {
     ChessPiece* target = board[end.rank][end.file];
 
@@ -70,4 +78,26 @@ std::vector<ChessPiece*> Board::getPieces(Color color) {
 
 std::vector<ChessPiece*> Board::getPieces() {
     return getPieces(Color::GRAY);
+}
+
+void Board::printBoard() {
+    for (int i = 0; i < ranks; i++) {
+        for (int j = 0; j < files; j++) {
+            if (board[i][j] == nullptr) {
+                std::cout << ".";
+            } else {
+                std::cout << board[i][j]->toString();
+            }
+            std::cout << "\t";
+        }
+        std::cout << std::endl;
+    }
+}
+
+bool Board::isInBounds(int rank, int file) {
+    return rank >= 0 && rank < ranks && file >= 0 && file < files;
+}
+
+bool Board::isInBounds(Position pos) {
+    return isInBounds(pos.rank, pos.file);
 }
