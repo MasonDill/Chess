@@ -29,15 +29,18 @@ OBJS = $(SRCS:$(PROJECT_DIR)/src/%.cpp=$(BUILD_DIR)/%.o)
 TARGET = $(BIN_DIR)/chess
 
 # Default target
+prerequisites: create_dirs all
 all: $(BUILD_DIR) create_obj_dirs $(TARGET)
 
+create_dirs:
+	if not exist "$(BUILD_DIR)" mkdir "$(BUILD_DIR)"
+	if not exist "$(BIN_DIR)" mkdir "$(BIN_DIR)"
+	
 # Create build directory and subdirectories
 create_obj_dirs:
-	@if not exist "$(BUILD_DIR)" mkdir "$(BUILD_DIR)"
 	@if not exist "$(BUILD_DIR)\game" mkdir "$(BUILD_DIR)\game"
 	@if not exist "$(BUILD_DIR)\core" mkdir "$(BUILD_DIR)\core"
 	@if not exist "$(BUILD_DIR)\pieces" mkdir "$(BUILD_DIR)\pieces"
-	@if not exist "$(BIN_DIR)" mkdir "$(BIN_DIR)"
 
 # Link the target executable
 $(TARGET): $(OBJS)
