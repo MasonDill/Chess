@@ -2,6 +2,7 @@
 #include <regex>
 
 #include "player.hpp"
+
 #define HELP_KEYWORD "help"
 #define EXIT_KEYWORD "exit"
 
@@ -31,31 +32,27 @@ static std::string getHelpMessage(){
     return helpMessage;
 }
 
-static std::pair<PieceType, std::pair<Position, Position>> readPlayerInput(){
-    std::string playerInput = "";
+static std::string invalidMoveMessage(){
+    std::string invalidMoveMessage = "Invalid move notation - expected format: <piece><start><end>\n";
+    invalidMoveMessage += "type 'help' for more information\n";
+    return invalidMoveMessage;
+}
+
+static std::pair<PieceType, std::pair<Position, Position>> readPlayerInput(Color color){
+    std::string playerInput = promptUserInput(color);
+
     std::regex notationRegex("^[prnbqk][a-h][1-8][a-h][1-8]$");
-
-    bool validInput = false;
-    do{
-        std::string playerInput = promptUserInput();
-
-        if (playerInput == HELP_KEYWORD) {
-            
-        }
-
-        validInput = std::regex_match(playerInput, notationRegex);
-
+    if(!std::regex_match(playerInput, notationRegex)) {
         if(playerInput == EXIT_KEYWORD) {
-            throw std::invalid_argument("Exiting game");
+            throw ExitGameException("Exiting game");
         }
         else if(playerInput == HELP_KEYWORD) {
-            std::cout << getHelpMessage();
+            throw InvalidInputException(getHelpMessage());
         }
-        else if(!validInput) {
-            std::cout << "Invalid move notation - expected format: <piece><start><end>" << std::endl;
-            std::cout << "type 'help' for more information" << std::endl;
+        else{
+            throw InvalidInputException(invalidMoveMessage());
         }
-    }while(!validInput);
+    }
 
     // parse the player input
     PieceType pieceType = ChessPiece::getPieceType(playerInput[0]);
@@ -83,7 +80,7 @@ static std::pair<PieceType, std::pair<Position, Position>> readPlayerInput(){
     @todo generalize this to any board dimensions and piece types
 */
 std::pair<ChessPiece*, Position> Player::queryPlayerMove(Board board){
-    std::pair<PieceType, std::pair<Position, Position>> playerInput = readPlayerInput();
+    std::pair<PieceType, std::pair<Position, Position>> playerInput = readPlayerInput(this->color);
     PieceType pieceType = playerInput.first;
     Position startPos = playerInput.second.first;
     Position endPos = playerInput.second.second;

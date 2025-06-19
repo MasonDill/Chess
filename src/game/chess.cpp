@@ -2,6 +2,7 @@
 #include "chess.hpp"
 
 #include <iostream>
+#include <cassert>
 
 void Chess::play() {
     Player whitePlayer = Player(Color::WHITE);
@@ -12,16 +13,29 @@ void Chess::play() {
         ChessPiece* piece;
         Position end;
 
-        gameState->getBoard().printBoard();
-        switch(gameState->getTurn()) {
-            case Color::WHITE:
-                std::tie(piece, end) = whitePlayer.queryPlayerMove(gameState->getBoard());
-                break;
-            case Color::BLACK:
-                std::tie(piece, end) = blackPlayer.queryPlayerMove(gameState->getBoard());
-                break;
-            default:
-                throw std::invalid_argument("Invalid turn");
+        // Retry this logic if an exception occurs
+        bool moveSelected = false;
+        while (!moveSelected) {
+            try {
+                gameState->getBoard().printBoard();
+                switch(gameState->getTurn()) {
+                    case Color::WHITE:
+                        std::tie(piece, end) = whitePlayer.queryPlayerMove(gameState->getBoard());
+                        break;
+                    case Color::BLACK:
+                        std::tie(piece, end) = blackPlayer.queryPlayerMove(gameState->getBoard());
+                        break;
+                    default:
+                        assert(false); // should never happen
+                }
+                moveSelected = true;
+            } catch (const InvalidInputException& e) {
+                std::cout << e.what() << std::endl;
+                system("cls");
+            } catch (const ExitGameException& e) {
+                std::cout << e.what() << std::endl;
+                return;
+            }
         }
         // clear the console
         system("cls");

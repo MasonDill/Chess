@@ -2,6 +2,7 @@
 #define PLAYER_HPP
 
 #include <utility>
+#include <exception>
 
 #include "move.hpp"
 #include "gamestate.hpp"
@@ -17,6 +18,26 @@ class Player {
     public:
         Player(Color color) : color(color) {};
         std::pair<ChessPiece*, Position> queryPlayerMove(Board board);
+};
+
+class InvalidInputException : public std::exception {
+    public:
+        InvalidInputException(const std::string& message) : message(message) {}
+        const char* what() const noexcept override {
+            return message.c_str();
+        }
+    private:
+        std::string message;
+};
+
+class ExitGameException : public std::exception {
+    public:
+        ExitGameException(const std::string& message) : message(message) {}
+        const char* what() const noexcept override {
+            return message.c_str();
+        }
+    private:
+        std::string message;
 };
 
 #endif
