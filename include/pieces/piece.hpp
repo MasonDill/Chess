@@ -114,6 +114,14 @@ class ChessPiece {
            Basic movement is processed in move.cpp for all pieces
          */
         virtual bool isLegalMove(Position endPos);
+
+        /* @brief Returns a string representation of the piece for display purposes */
+        std::string displayPiece() const {
+            std::string str = this->getColor() == Color::WHITE ? "W" : "B";
+            str += this->toString();
+
+            return str;
+        }
 };
 
 /*

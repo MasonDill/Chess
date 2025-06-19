@@ -2,24 +2,60 @@
 #include <regex>
 
 #include "player.hpp"
+#define HELP_KEYWORD "help"
+#define EXIT_KEYWORD "exit"
 
 /*** Helper functions ***/
 
-static std::string promptUserInput(){
+static std::string promptUserInput(Color color){
     std::string playerInput = "";
-    std::cout << "Enter your move: ";
+
+    std::string colorString = color == Color::WHITE ? "White" : "Black";
+    std::cout << colorString << " player, enter your move: ";
     std::cin >> playerInput;
     return playerInput;
 }
 
-static std::pair<PieceType, std::pair<Position, Position>> readPlayerInput(){
-    std::string playerInput = promptUserInput();
+static std::string getHelpMessage(){
+    std::string helpMessage = "--------------------------------\n";
+    helpMessage += "Piece types: p, r, n, b, q, k\n";
+    helpMessage += "Row and column notation: a-h, 1-8\n\n";
 
-    // verify in the input is following the notation format using regex
+    helpMessage += "Move notation: <piece><start><end>\n";
+    helpMessage += "Example: pe2e4 -> Move the piece at e2 to e4\n\n";
+
+    helpMessage += "type 'exit' to exit the game\n\n";
+    helpMessage += "type 'help' to display this message again\n\n";
+
+    helpMessage += "--------------------------------\n";
+    return helpMessage;
+}
+
+static std::pair<PieceType, std::pair<Position, Position>> readPlayerInput(){
+    std::string playerInput = "";
     std::regex notationRegex("^[prnbqk][a-h][1-8][a-h][1-8]$");
-    if (!std::regex_match(playerInput, notationRegex)) {
-        throw std::invalid_argument("Recieved invalid move notation");
-    }
+
+    bool validInput = false;
+    do{
+        std::string playerInput = promptUserInput();
+
+        if (playerInput == HELP_KEYWORD) {
+            
+        }
+
+        validInput = std::regex_match(playerInput, notationRegex);
+
+        if(playerInput == EXIT_KEYWORD) {
+            throw std::invalid_argument("Exiting game");
+        }
+        else if(playerInput == HELP_KEYWORD) {
+            std::cout << getHelpMessage();
+        }
+        else if(!validInput) {
+            std::cout << "Invalid move notation - expected format: <piece><start><end>" << std::endl;
+            std::cout << "type 'help' for more information" << std::endl;
+        }
+    }while(!validInput);
 
     // parse the player input
     PieceType pieceType = ChessPiece::getPieceType(playerInput[0]);

@@ -98,7 +98,7 @@ void Board::printBoard() {
             if (board[i][j] == nullptr) {
                 std::cout << ".";
             } else {
-                std::cout << board[i][j]->toString();
+                std::cout << board[i][j]->displayPiece();
             }
             std::cout << "\t";
         }
