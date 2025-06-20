@@ -52,6 +52,7 @@ $(BUILD_DIR)/%.o: $(PROJECT_DIR)/src/%.cpp
 
 # Clean build files
 clean:
-	$(RM) -r $(BUILD_DIR) $(TARGET)
+	if exist "$(BUILD_DIR)" rmdir /s /q "$(BUILD_DIR)"
+	if exist "$(BIN_DIR)" rmdir /s /q "$(BIN_DIR)"
 
 .PHONY: all clean create_obj_dirs
