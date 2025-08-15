@@ -93,7 +93,16 @@ std::vector<ChessPiece*> Board::getPieces() {
 }
 
 void Board::printBoard() {
+    // print the files
+    std::cout << "\t";
+    for(int i = 0; i < files; i++) {
+        std::cout << (char)('a' + i) << "\t";
+    }
+    std::cout << std::endl;
+
     for (int i = 0; i < ranks; i++) {
+        std::cout << i + 1 << "\t"; // print the rank
+
         for (int j = 0; j < files; j++) {
             if (board[i][j] == nullptr) {
                 std::cout << ".";

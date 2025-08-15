@@ -1,5 +1,8 @@
 #include <vector>
+#include <exception>
+
 #include "chess.hpp"
+#include "player.hpp"
 
 #include <iostream>
 #include <cassert>
@@ -25,16 +28,20 @@ void Chess::play() {
                     case Color::BLACK:
                         std::tie(piece, end) = blackPlayer.queryPlayerMove(gameState->getBoard());
                         break;
-                    default:
-                        assert(false); // should never happen
+                    // default:
+                    //     assert(false); // should never happen
                 }
                 moveSelected = true;
-            } catch (const InvalidInputException& e) {
+            }
+            catch (const InvalidInputException& e) {
+                std::cout << "CAUGHT EXCEPTION" << std::endl;
+            }
+            catch (const ExitGameException& e) {
                 std::cout << e.what() << std::endl;
-                system("cls");
-            } catch (const ExitGameException& e) {
-                std::cout << e.what() << std::endl;
-                return;
+                //return;
+            }
+            catch (const std::exception& e) {
+                    std::cout << e.what() << std::endl;
             }
         }
         // clear the console

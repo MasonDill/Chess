@@ -43,14 +43,18 @@ static std::pair<PieceType, std::pair<Position, Position>> readPlayerInput(Color
 
     std::regex notationRegex("^[prnbqk][a-h][1-8][a-h][1-8]$");
     if(!std::regex_match(playerInput, notationRegex)) {
+        std::cout << "Invalid move\n";
         if(playerInput == EXIT_KEYWORD) {
-            throw ExitGameException("Exiting game");
+            //throw ExitGameException("Exiting game");
+            throw std::invalid_argument("Exiting game");
         }
         else if(playerInput == HELP_KEYWORD) {
-            throw InvalidInputException(getHelpMessage());
+            //throw InvalidInputException("test");
+            throw std::invalid_argument("Invalid input");
         }
         else{
-            throw InvalidInputException(invalidMoveMessage());
+            //throw InvalidInputException("test");
+            throw std::invalid_argument("Invalid input");
         }
     }
 
@@ -105,7 +109,7 @@ std::pair<ChessPiece*, Position> Player::queryPlayerMove(Board board){
 
     // check that the piece is of the correct type
     if (pieceToMove->getType() != pieceType) {
-        throw std::invalid_argument("Selected wrong piece type");
+        throw std::invalid_argument("Selected wrong piece type - expected");
     }
 
     // check that the move is legal

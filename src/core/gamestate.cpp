@@ -15,7 +15,7 @@ GameState::GameOutcome GameState::playTurn(ChessPiece* piece, Position end) {
     board.movePiece(piece, end);
 
     // TODO: check for checkmate/stalemate
-
+    
 
     // Update 
     turn++;

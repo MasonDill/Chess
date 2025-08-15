@@ -5,11 +5,11 @@ INCLUDE_DIR := $(PROJECT_DIR)/include
 INCLUDE_FLAGS := $(patsubst %,-I%,$(wildcard $(INCLUDE_DIR)/*))
 
 # Debug flag (can be overridden via command line)
-DEBUG ?= 0
-ifeq ($(DEBUG),1)
+DBG ?= 0
+ifeq ($(DBG),0)
     CXXFLAGS_DEBUG := -O0 -g
 else
-    CXXFLAGS_DEBUG := -O2
+    CXXFLAGS_DEBUG := -O0 -g
 endif
 
 # Compiler settings
