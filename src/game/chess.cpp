@@ -33,15 +33,14 @@ void Chess::play() {
                 }
                 moveSelected = true;
             }
-            catch (const InvalidInputException& e) {
-                std::cout << "CAUGHT EXCEPTION" << std::endl;
-            }
             catch (const ExitGameException& e) {
                 std::cout << e.what() << std::endl;
-                //return;
+                return;
             }
             catch (const std::exception& e) {
-                    std::cout << e.what() << std::endl;
+                // InvalidInputException and move-validation errors land here;
+                // print the reason and the loop reprints the board to retry.
+                std::cout << e.what() << std::endl;
             }
         }
         // clear the console

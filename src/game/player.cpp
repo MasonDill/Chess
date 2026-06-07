@@ -1,61 +1,130 @@
 #include <iostream>
 #include <regex>
+#include <string>
+#include <vector>
 
 #include "player.hpp"
 
 #define HELP_KEYWORD "help"
-#define EXIT_KEYWORD "exit"
 
 /*** Helper functions ***/
 
-static std::string promptUserInput(Color color){
-    std::string playerInput = "";
+static void clearScreen(){
+    // ANSI escape: clear the screen and move the cursor home. Works on
+    // macOS/Linux terminals and Windows Terminal.
+    std::cout << "\033[2J\033[H";
+}
 
+// Commands (typed alone) that request to quit the game. Edit this list to
+// change the accepted quit keywords - matching and help text follow it.
+static const std::vector<std::string> EXIT_COMMANDS = {"exit", "quit", "q"};
+
+static bool isExitCommand(const std::string& input){
+    for (const std::string& command : EXIT_COMMANDS) {
+        if (input == command) {
+            return true;
+        }
+    }
+    return false;
+}
+
+// Render the exit commands as a "exit / quit / q" list for help text.
+static std::string exitCommandList(){
+    std::string list;
+    for (size_t i = 0; i < EXIT_COMMANDS.size(); i++) {
+        if (i > 0) {
+            list += " / ";
+        }
+        list += EXIT_COMMANDS[i];
+    }
+    return list;
+}
+
+static std::string promptUserInput(Color color){
     std::string colorString = color == Color::WHITE ? "White" : "Black";
-    std::cout << colorString << " player, enter your move: ";
-    std::cin >> playerInput;
+    std::cout << colorString << " player, enter your move (type '"
+              << HELP_KEYWORD << "' for instructions): ";
+
+    std::string playerInput;
+    if (!std::getline(std::cin, playerInput)) {
+        // End-of-input (e.g. piped input or Ctrl-D): treat as exit so we
+        // don't spin forever re-prompting on a closed stream.
+        throw ExitGameException("\nNo more input - exiting game.");
+    }
     return playerInput;
 }
 
 static std::string getHelpMessage(){
     std::string helpMessage = "--------------------------------\n";
-    helpMessage += "Piece types: p, r, n, b, q, k\n";
-    helpMessage += "Row and column notation: a-h, 1-8\n\n";
+    helpMessage += "HOW TO ENTER A MOVE\n\n";
 
-    helpMessage += "Move notation: <piece><start><end>\n";
-    helpMessage += "Example: pe2e4 -> Move the piece at e2 to e4\n\n";
+    helpMessage += "Format: <piece><from><to>   (no spaces)\n";
+    helpMessage += "  <piece>  one of: p r n b q k  (pawn, rook, knight, bishop, queen, king)\n";
+    helpMessage += "  <from>   the square the piece is on\n";
+    helpMessage += "  <to>     the square to move it to\n\n";
 
-    helpMessage += "type 'exit' to exit the game\n\n";
-    helpMessage += "type 'help' to display this message again\n\n";
+    helpMessage += "Squares are a file (column a-h) followed by a rank (row 1-8).\n";
+    helpMessage += "Example: pe2e4  ->  move the pawn on e2 to e4\n";
+    helpMessage += "Example: ng1f3  ->  move the knight on g1 to f3\n\n";
+
+    helpMessage += "Other commands:\n";
+    helpMessage += "  " HELP_KEYWORD "  show this message again\n";
+    helpMessage += "  " + exitCommandList() + "  quit the game\n";
 
     helpMessage += "--------------------------------\n";
     return helpMessage;
 }
 
+// Ask the user to confirm quitting. Defaults to "no" so a stray quit
+// command (or just hitting enter) keeps the game going.
+static bool confirmQuit(){
+    std::cout << "Are you sure you would like to quit (y/N)? ";
+
+    std::string response;
+    if (!std::getline(std::cin, response)) {
+        return true; // no more input -> let the game end
+    }
+    return response == "y" || response == "Y";
+}
+
 static std::string invalidMoveMessage(){
-    std::string invalidMoveMessage = "Invalid move notation - expected format: <piece><start><end>\n";
-    invalidMoveMessage += "type 'help' for more information\n";
+    std::string invalidMoveMessage = "Invalid move notation - expected format: <piece><from><to> (e.g. pe2e4)\n";
+    invalidMoveMessage += "type '" HELP_KEYWORD "' for instructions\n";
     return invalidMoveMessage;
 }
 
 static std::pair<PieceType, std::pair<Position, Position>> readPlayerInput(Color color){
-    std::string playerInput = promptUserInput(color);
-
     std::regex notationRegex("^[prnbqk][a-h][1-8][a-h][1-8]$");
-    if(!std::regex_match(playerInput, notationRegex)) {
-        std::cout << "Invalid move\n";
-        if(playerInput == EXIT_KEYWORD) {
-            //throw ExitGameException("Exiting game");
-            throw std::invalid_argument("Exiting game");
+
+    std::string playerInput;
+    while (true) {
+        playerInput = promptUserInput(color);
+
+        if (playerInput.empty()) {
+            // Empty input: wipe the clutter and show the menu again.
+            clearScreen();
+            std::cout << getHelpMessage();
+            continue;
         }
-        else if(playerInput == HELP_KEYWORD) {
-            //throw InvalidInputException("test");
-            throw std::invalid_argument("Invalid input");
+
+        if (isExitCommand(playerInput)) {
+            if (confirmQuit()) {
+                throw ExitGameException("Thanks for playing!");
+            }
+            continue; // user changed their mind; ask for a move again
         }
-        else{
-            //throw InvalidInputException("test");
-            throw std::invalid_argument("Invalid input");
+
+        if (playerInput == HELP_KEYWORD) {
+            // Show help and re-prompt in place, without counting as a bad move.
+            std::cout << getHelpMessage();
+            continue;
         }
+
+        if (!std::regex_match(playerInput, notationRegex)) {
+            throw InvalidInputException(invalidMoveMessage());
+        }
+
+        break; // valid notation
     }
 
     // parse the player input
