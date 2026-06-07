@@ -3,6 +3,7 @@
 
 #include "chess.hpp"
 #include "player.hpp"
+#include "console.hpp"
 
 #include <iostream>
 #include <cassert>
@@ -20,7 +21,7 @@ void Chess::play() {
         bool moveSelected = false;
         while (!moveSelected) {
             try {
-                gameState->getBoard().printBoard();
+                // queryPlayerMove prints the board before every prompt.
                 switch(gameState->getTurn()) {
                     case Color::WHITE:
                         std::tie(piece, end) = whitePlayer.queryPlayerMove(gameState->getBoard());
@@ -43,8 +44,9 @@ void Chess::play() {
                 std::cout << e.what() << std::endl;
             }
         }
-        // clear the console
-        system("cls");
+        // clear the console so the next turn's board starts fresh
+        // instead of stacking
+        clearScreen();
 
         outcome = gameState->playTurn(piece, end);
     } while (outcome == GameState::GameOutcome::IN_PROGRESS);

@@ -4,16 +4,11 @@
 #include <vector>
 
 #include "player.hpp"
+#include "console.hpp"
 
 #define HELP_KEYWORD "help"
 
 /*** Helper functions ***/
-
-static void clearScreen(){
-    // ANSI escape: clear the screen and move the cursor home. Works on
-    // macOS/Linux terminals and Windows Terminal.
-    std::cout << "\033[2J\033[H";
-}
 
 // Commands (typed alone) that request to quit the game. Edit this list to
 // change the accepted quit keywords - matching and help text follow it.
@@ -93,11 +88,14 @@ static std::string invalidMoveMessage(){
     return invalidMoveMessage;
 }
 
-static std::pair<PieceType, std::pair<Position, Position>> readPlayerInput(Color color){
+static std::pair<PieceType, std::pair<Position, Position>> readPlayerInput(Color color, Board& board){
     std::regex notationRegex("^[prnbqk][a-h][1-8][a-h][1-8]$");
 
     std::string playerInput;
     while (true) {
+        // The player can't choose a move without seeing the board, so show it
+        // before every prompt (including help/empty/declined-quit re-prompts).
+        board.printBoard();
         playerInput = promptUserInput(color);
 
         if (playerInput.empty()) {
@@ -153,7 +151,7 @@ static std::pair<PieceType, std::pair<Position, Position>> readPlayerInput(Color
     @todo generalize this to any board dimensions and piece types
 */
 std::pair<ChessPiece*, Position> Player::queryPlayerMove(Board& board){
-    std::pair<PieceType, std::pair<Position, Position>> playerInput = readPlayerInput(this->color);
+    std::pair<PieceType, std::pair<Position, Position>> playerInput = readPlayerInput(this->color, board);
     PieceType pieceType = playerInput.first;
     Position startPos = playerInput.second.first;
     Position endPos = playerInput.second.second;
