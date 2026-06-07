@@ -3,6 +3,7 @@
 
 #include <utility>
 #include "piece.hpp"
+#include "board.hpp"
 
 /*
     @class GameTemplate
@@ -10,24 +11,16 @@
 */
 class GameTemplate {
     public:
-        virtual std::vector<ChessPiece*> getInitialPieces() = 0;
-        virtual int ranks() = 0;
-        virtual int files() = 0;
-
-        std::pair<std::vector<ChessPiece*>, std::pair<int, int>> getInitialState() {
-            return std::make_pair(getInitialPieces(), std::make_pair(ranks(), files()));
-        }
+        virtual Board getInitialGameState() = 0;
 };
 
 /*
     @class ClassicChess
     @brief A template for the classic chess setup
 */
-class ClassicChess : public GameTemplate {
+class ClassicChessTemplate : public GameTemplate {
     public:
-        std::vector<ChessPiece*> getInitialPieces() override;
-        int ranks() override;
-        int files() override;
+        Board getInitialGameState() override;
 };
 
 #endif

@@ -14,7 +14,6 @@ class GameState {
         int turn;
         bool whiteTurn;
     public:
-        GameState(int ranks, int files, std::vector<ChessPiece*> pieces);
         GameState(GameTemplate* gameTemplate);
 
         /*
@@ -29,7 +28,7 @@ class GameState {
         };
 
         Color getTurn();
-        Board getBoard();
+        Board& getBoard();
         
         /*
             @brief A function to play a turn

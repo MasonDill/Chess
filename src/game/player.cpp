@@ -83,7 +83,7 @@ static std::pair<PieceType, std::pair<Position, Position>> readPlayerInput(Color
     
     @todo generalize this to any board dimensions and piece types
 */
-std::pair<ChessPiece*, Position> Player::queryPlayerMove(Board board){
+std::pair<ChessPiece*, Position> Player::queryPlayerMove(Board& board){
     std::pair<PieceType, std::pair<Position, Position>> playerInput = readPlayerInput(this->color);
     PieceType pieceType = playerInput.first;
     Position startPos = playerInput.second.first;
@@ -113,7 +113,7 @@ std::pair<ChessPiece*, Position> Player::queryPlayerMove(Board board){
     }
 
     // check that the move is legal
-    if (!pieceToMove->isLegalMove(endPos)) {
+    if (!pieceToMove->isLegalMove(startPos, endPos)) {
         throw std::invalid_argument("Selected illegal move");
     }
 

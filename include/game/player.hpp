@@ -17,7 +17,7 @@ class Player {
         Color color;
     public:
         Player(Color color) : color(color) {};
-        std::pair<ChessPiece*, Position> queryPlayerMove(Board board);
+        std::pair<ChessPiece*, Position> queryPlayerMove(Board& board);
 };
 
 class InvalidInputException : public std::exception {

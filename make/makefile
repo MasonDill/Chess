@@ -1,5 +1,16 @@
 PROJECT_DIR = ..
 
+# Host OS detection -> platform-specific shell commands
+ifeq ($(OS),Windows_NT)
+    # Windows (cmd.exe): convert forward slashes to backslashes for mkdir/rmdir
+    MKDIR = if not exist "$(subst /,\,$1)" mkdir "$(subst /,\,$1)"
+    RMDIR = if exist "$(subst /,\,$1)" rmdir /s /q "$(subst /,\,$1)"
+else
+    # POSIX (macOS, Linux)
+    MKDIR = mkdir -p "$1"
+    RMDIR = rm -rf "$1"
+endif
+
 # Include header files
 INCLUDE_DIR := $(PROJECT_DIR)/include
 INCLUDE_FLAGS := $(patsubst %,-I%,$(wildcard $(INCLUDE_DIR)/*))
@@ -33,14 +44,14 @@ prerequisites: create_dirs all
 all: $(BUILD_DIR) create_obj_dirs $(TARGET)
 
 create_dirs:
-	if not exist "$(BUILD_DIR)" mkdir "$(BUILD_DIR)"
-	if not exist "$(BIN_DIR)" mkdir "$(BIN_DIR)"
-	
+	$(call MKDIR,$(BUILD_DIR))
+	$(call MKDIR,$(BIN_DIR))
+
 # Create build directory and subdirectories
 create_obj_dirs:
-	@if not exist "$(BUILD_DIR)\game" mkdir "$(BUILD_DIR)\game"
-	@if not exist "$(BUILD_DIR)\core" mkdir "$(BUILD_DIR)\core"
-	@if not exist "$(BUILD_DIR)\pieces" mkdir "$(BUILD_DIR)\pieces"
+	@$(call MKDIR,$(BUILD_DIR)/game)
+	@$(call MKDIR,$(BUILD_DIR)/core)
+	@$(call MKDIR,$(BUILD_DIR)/pieces)
 
 # Link the target executable
 $(TARGET): $(OBJS)
@@ -52,7 +63,7 @@ $(BUILD_DIR)/%.o: $(PROJECT_DIR)/src/%.cpp
 
 # Clean build files
 clean:
-	if exist "$(BUILD_DIR)" rmdir /s /q "$(BUILD_DIR)"
-	if exist "$(BIN_DIR)" rmdir /s /q "$(BIN_DIR)"
+	$(call RMDIR,$(BUILD_DIR))
+	$(call RMDIR,$(BIN_DIR))
 
 .PHONY: all clean create_obj_dirs

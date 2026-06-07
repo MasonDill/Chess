@@ -1,21 +1,20 @@
 #include "gamestate.hpp"
 
-GameState::GameState(int ranks, int files, std::vector<ChessPiece*> pieces) : board(ranks, files, pieces), turn(0), whiteTurn(true) {};
-GameState::GameState(GameTemplate* gameTemplate) : GameState(gameTemplate->ranks(), gameTemplate->files(), gameTemplate->getInitialPieces()) {};
+GameState::GameState(GameTemplate* gameTemplate) : board(gameTemplate->getInitialGameState()), turn(0), whiteTurn(true) {}
 
 Color GameState::getTurn() {
     return whiteTurn ? Color::WHITE : Color::BLACK;
 }
 
-Board GameState::getBoard() {
+Board& GameState::getBoard() {
     return board;
 }
 
 GameState::GameOutcome GameState::playTurn(ChessPiece* piece, Position end) {
-    board.movePiece(piece, end);
+    board.placePiece(piece, end);
 
     // TODO: check for checkmate/stalemate
-    
+        
 
     // Update 
     turn++;

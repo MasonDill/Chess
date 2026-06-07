@@ -52,8 +52,6 @@ class ChessPiece {
         MovementPattern attackPattern;
 
     public:
-        /* @brief The position of the piece */
-        Position position;
 
         /* @brief Returns the piece type from a character
            @param piece The character to get the piece type from
@@ -89,7 +87,7 @@ class ChessPiece {
             @param attackPattern The attack pattern of the piece
 
         */
-        ChessPiece(Color color, Position position, PieceType type, MovementPattern movePattern, MovementPattern attackPattern) : color(color), position(position), type(type), movePattern(movePattern), attackPattern(attackPattern) {}
+        ChessPiece(Color color, PieceType type, MovementPattern movePattern, MovementPattern attackPattern) : color(color), type(type), movePattern(movePattern), attackPattern(attackPattern) {}
 
         /* @brief Destructor for the ChessPiece class */
         virtual ~ChessPiece() = default;
@@ -113,7 +111,7 @@ class ChessPiece {
            @note This function is virtual (not pure virtual) for special moves like castling, en passant, and promotion
            Basic movement is processed in move.cpp for all pieces
          */
-        virtual bool isLegalMove(Position endPos);
+        virtual bool isLegalMove(Position startPos, Position endPos);
 
         /* @brief Returns a string representation of the piece for display purposes */
         std::string displayPiece() const {
@@ -133,8 +131,7 @@ class Pawn : public ChessPiece {
         /* @brief Whether the pawn has made its first move */
         bool isFirstMove;
     public:
-        Pawn(Color color, Position position) : ChessPiece(color,
-                                            position,
+        Pawn(Color color) : ChessPiece(color,
                                             PAWN,
                                             PAWN_MOVE_PATTERN,
                                             PAWN_ATTACK_PATTERN),
@@ -149,8 +146,7 @@ class Pawn : public ChessPiece {
 
 class Rook : public ChessPiece {
     public:
-        Rook(Color color, Position position) : ChessPiece(color,
-                                            position,
+        Rook(Color color) : ChessPiece(color,
                                             ROOK,
                                             ROOK_MOVE_PATTERN,
                                             ROOK_ATTACK_PATTERN) {}
@@ -168,8 +164,7 @@ class Rook : public ChessPiece {
 */
 class Knight : public ChessPiece {
     public:
-        Knight(Color color, Position position) : ChessPiece(color,
-                                            position,
+        Knight(Color color) : ChessPiece(color,
                                             KNIGHT,
                                             KNIGHT_MOVE_PATTERN,
                                             KNIGHT_ATTACK_PATTERN) {}
@@ -187,8 +182,7 @@ class Knight : public ChessPiece {
 */
 class Bishop : public ChessPiece {
     public:
-        Bishop(Color color, Position position) : ChessPiece(color,
-                                            position,
+        Bishop(Color color) : ChessPiece(color,
                                             BISHOP,
                                             BISHOP_MOVE_PATTERN,
                                             BISHOP_ATTACK_PATTERN) {}
@@ -206,8 +200,7 @@ class Bishop : public ChessPiece {
 */
 class Queen : public ChessPiece {
     public:
-        Queen(Color color, Position position) : ChessPiece(color,
-                                            position,
+        Queen(Color color) : ChessPiece(color,
                                             QUEEN,
                                             QUEEN_MOVE_PATTERN,
                                             QUEEN_ATTACK_PATTERN) {}
@@ -225,8 +218,7 @@ class Queen : public ChessPiece {
 */
 class King : public ChessPiece {
     public:
-        King(Color color, Position position) : ChessPiece(color,
-                                            position,
+        King(Color color) : ChessPiece(color,
                                             KING,
                                             KING_MOVE_PATTERN,
                                             KING_ATTACK_PATTERN) {}

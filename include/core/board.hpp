@@ -32,6 +32,13 @@ class Board {
         Board(int ranks, int files, std::vector<ChessPiece*> pieces);
         ~Board();
 
+        // Board owns raw heap memory, so disallow copying (which would be
+        // shallow and double-free) and allow moving instead.
+        Board(const Board&) = delete;
+        Board& operator=(const Board&) = delete;
+        Board(Board&& other) noexcept;
+        Board& operator=(Board&& other) noexcept;
+
         int getRanks();
         int getFiles();
         
@@ -47,7 +54,7 @@ class Board {
             @param piece The piece to move
             @param end The position to move the piece to
         */
-        void movePiece(ChessPiece* piece, Position end);
+        void placePiece(ChessPiece* piece, Position pos);
 
         /*
             @brief Print the board with ASCII characters to the console

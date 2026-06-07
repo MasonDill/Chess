@@ -14,7 +14,7 @@ class Chess {
         GameState* gameState;
     public:
         Chess(GameTemplate* gameTemplate) : gameState(new GameState(gameTemplate)) {};
-        Chess() : Chess(new ClassicChess()) {};
+        Chess() : Chess(new ClassicChessTemplate()) {};
         void play();
 };
 

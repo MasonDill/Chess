@@ -3,20 +3,19 @@
 
 /*** Helper functions ***/
 
-static void populateBoard(ChessPiece*** board, std::vector<ChessPiece*> pieces) {
-    for (int i = 0; i < pieces.size(); i++) {
-        int rank = pieces[i]->position.rank;
-        int file = pieces[i]->position.file;
-        if (board[rank][file] != nullptr) {
-            throw std::invalid_argument("Cannot populate board with piece at position already occupied");
-        }
+// static void populateBoard(ChessPiece*** board, std::vector<ChessPiece*> pieces) {
+//     for (int i = 0; i < pieces.size(); i++) {
+//         int rank = pieces[i]->position.rank;
+//         int file = pieces[i]->position.file;
+//         if (board[rank][file] != nullptr) {
+//             throw std::invalid_argument("Cannot populate board with piece at position already occupied");
+//         }
         
-        board[rank][file] = pieces[i];
-    }
-}
+//         board[rank][file] = pieces[i];
+//     }
+// }
 
 /*** Board member functions ***/
-
 Board::Board(int ranks, int files) : ranks(ranks), files(files) {
     board = new ChessPiece**[ranks];
     for (int i = 0; i < ranks; i++) {
@@ -27,15 +26,49 @@ Board::Board(int ranks, int files) : ranks(ranks), files(files) {
     }
 }
 
-Board::Board(int ranks, int files, std::vector<ChessPiece*> pieces) : Board(ranks, files) {
-    populateBoard(this->board, pieces);
-}
+// Board::Board(int ranks, int files, std::vector<ChessPiece*> pieces) : Board(ranks, files) {
+//     populateBoard(this->board, pieces);
+// }
 
 Board::~Board() {
+    if (board == nullptr) {
+        return; // moved-from board owns nothing
+    }
     for (int i = 0; i < ranks; i++) {
         delete[] board[i];
     }
     delete[] board;
+}
+
+Board::Board(Board&& other) noexcept
+    : board(other.board), ranks(other.ranks), files(other.files) {
+    other.board = nullptr;
+    other.ranks = 0;
+    other.files = 0;
+}
+
+Board& Board::operator=(Board&& other) noexcept {
+    if (this == &other) {
+        return *this;
+    }
+
+    // free our existing storage
+    if (board != nullptr) {
+        for (int i = 0; i < ranks; i++) {
+            delete[] board[i];
+        }
+        delete[] board;
+    }
+
+    board = other.board;
+    ranks = other.ranks;
+    files = other.files;
+
+    other.board = nullptr;
+    other.ranks = 0;
+    other.files = 0;
+
+    return *this;
 }
 
 ChessPiece* Board::getPiece(Position pos) {
@@ -45,23 +78,21 @@ ChessPiece* Board::getPiece(Position pos) {
     return board[pos.rank][pos.file];
 }
 
-void Board::movePiece(ChessPiece* piece, Position end) {
-    ChessPiece* target = board[end.rank][end.file];
+void Board::placePiece(ChessPiece* piece, Position pos) {
+    if (!isInBounds(pos)) {
+        throw std::invalid_argument("Position out of bounds");
+    }
+
+    ChessPiece* target = board[pos.rank][pos.file];
 
     if (target != nullptr) {
         if (target->getColor() == piece->getColor()) {
             throw std::invalid_argument("Cannot move piece to position occupied by friendly piece");
         }
+        delete target; // cleanup any pieces that were captured
     }
 
-    ChessPiece* temp = target;
-
-    target = piece;
-    piece = nullptr;
-
-    if (temp != nullptr) {
-        delete temp; // cleanup any pieces that were captured
-    }
+    board[pos.rank][pos.file] = piece;
 }
 
 std::vector<ChessPiece*> Board::getPieces(Color color, PieceType type) {

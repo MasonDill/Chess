@@ -9,6 +9,8 @@
     @brief A file for the move patterns of the pieces
 */
 
+// TODO create 'SpecialMovementPattern' that that requires some bool function to be true
+
 const static MovementPattern PAWN_MOVE_PATTERN = {
     std::vector<MoveSequence> {
         MoveSequence{{ {NORTH, 1, SLIDE} }},
